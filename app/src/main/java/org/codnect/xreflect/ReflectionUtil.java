@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Collection;
 import java.util.Map;
@@ -164,6 +165,47 @@ public class ReflectionUtil {
         }
 
         return propertyName;
+    }
+
+    /**
+     * Determines if the specified type is a resolved type.
+     *
+     * @param type an instance of the type
+     * @return if the type is a resolved type, it returns
+     * true. Otherwise, it returns false.
+     */
+    public static boolean isResolved(Type type) {
+        if(type instanceof Class) {
+            return true;
+        } else if(type instanceof GenericArrayType) {
+            return isResolved(((GenericArrayType) type).getGenericComponentType());
+        } else if(type instanceof ParameterizedType) {
+            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+            for(Type actualTypeArgument : actualTypeArguments) {
+                if(!isResolved(actualTypeArgument)) {
+                    return false;
+                }
+            }
+            return isResolved(((ParameterizedType) type).getRawType());
+        } else if(type instanceof TypeVariable) {
+            return false;
+        } else if(type instanceof WildcardType) {
+            Type[] lowerBounds = ((WildcardType) type).getLowerBounds();
+            for(Type lowerBound : lowerBounds) {
+                if(!isResolved(lowerBound)) {
+                    return false;
+                }
+            }
+            Type[] upperBounds = ((WildcardType) type).getUpperBounds();
+            for(Type upperBound : upperBounds) {
+                if(!isResolved(upperBound)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
 }
