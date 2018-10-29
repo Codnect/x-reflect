@@ -1,5 +1,7 @@
 package org.codnect.xreflect;
 
+import org.codnect.xreflect.util.ReflectionUtil;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
