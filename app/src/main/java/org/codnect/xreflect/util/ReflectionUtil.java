@@ -1,4 +1,4 @@
-package org.codnect.xreflect;
+package org.codnect.xreflect.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
