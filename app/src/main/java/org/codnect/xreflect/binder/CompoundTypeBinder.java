@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
  * CompoundTypeBinder provides type binding using two different
  * type binder.
  *
- * Created by Burak Koken on 29.10.2018.
+ * Created by Burak Koken on 1.11.2018.
  *
  * @author Burak Koken
  */
