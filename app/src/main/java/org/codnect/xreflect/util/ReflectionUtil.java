@@ -75,10 +75,8 @@ public class ReflectionUtil {
                     return false;
                 }
             }
-
             return true;
         }
-
         return false;
 
     }
@@ -96,7 +94,6 @@ public class ReflectionUtil {
         } else if(type instanceof GenericArrayType) {
             return isSimple(((GenericArrayType) type).getGenericComponentType());
         }
-
         return false;
     }
 
@@ -133,7 +130,6 @@ public class ReflectionUtil {
                 return getCollectionClass(upperBounds[0]);
             }
         }
-
         return null;
     }
 
@@ -163,7 +159,6 @@ public class ReflectionUtil {
             chars[0] = Character.toLowerCase(chars[0]);
             return new String(chars);
         }
-
         return propertyName;
     }
 
@@ -204,7 +199,6 @@ public class ReflectionUtil {
             }
             return true;
         }
-
         return false;
     }
 
