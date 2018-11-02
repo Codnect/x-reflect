@@ -96,4 +96,15 @@ public class TypeBinderFactory {
         throw new RuntimeException("Unreachable line!");
     }
 
+    /**
+     * Converts the specified type binder to an approximate type
+     * binder.
+     *
+     * @param typeBinder an instance of the type binder
+     * @return an approximate type binder
+     */
+    public TypeBinder toApproximateBinder(TypeBinder typeBinder) {
+        return CompoundTypeBinder.create(new ApproximateTypeBinder(), typeBinder);
+    }
+
 }
