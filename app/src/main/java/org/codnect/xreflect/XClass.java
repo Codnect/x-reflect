@@ -1,6 +1,14 @@
 package org.codnect.xreflect;
 
+import org.codnect.xreflect.binder.CompoundTypeBinder;
+import org.codnect.xreflect.binder.TypeBinder;
+import org.codnect.xreflect.util.ReflectionUtil;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Burak Koken on 27.10.2018.
@@ -10,10 +18,12 @@ import java.lang.reflect.Modifier;
 public class XClass extends XAnnotatedElement {
 
     private Class annotatedClass;
+    private TypeBinder typeBinder;
 
-    protected XClass(Class annotatedClass, ReflectionManager reflectionManager) {
+    protected XClass(Class annotatedClass, ReflectionManager reflectionManager, TypeBinder typeBinder) {
         super(annotatedClass, reflectionManager);
         this.annotatedClass = annotatedClass;
+        this.typeBinder = typeBinder;
     }
 
     /**
@@ -94,6 +104,106 @@ public class XClass extends XAnnotatedElement {
      */
     public boolean isAssignableFrom(XClass xClass) {
         return annotatedClass.isAssignableFrom(xClass.toClass());
+    }
+
+    /**
+     * Get all the declared fields for this element.
+     *
+     * @return all the declared fields
+     */
+    public List<XField> getDeclaredFields() {
+        List<XField> fields = new LinkedList<>();
+        for(Field field : annotatedClass.getDeclaredFields()) {
+            fields.add(getReflectionManager().getXField(field, getTypeBinder()));
+        }
+        return fields;
+    }
+
+    /**
+     * Get all the declared methods for this element.
+     *
+     * @return all the declared methods
+     */
+    public List<XMethod> getDeclaredMethods() {
+        List<XMethod> methods = new LinkedList<>();
+        for(Method method : annotatedClass.getDeclaredMethods()) {
+            methods.add(getReflectionManager().getXMethod(method, getTypeBinder()));
+        }
+        return methods;
+    }
+
+    /**
+     * Get all the declared field properties for this element.
+     *
+     * @return all the declared field properties
+     */
+    public List<XProperty> getDeclaredFieldProperties() {
+        LinkedList<XProperty> fieldProperties = new LinkedList<>();
+        for(Field field : annotatedClass.getDeclaredFields()) {
+            if(ReflectionUtil.isProperty(field)) {
+                fieldProperties.add(getReflectionManager().getXProperty(field, getTypeBinder()));
+            }
+        }
+        return fieldProperties;
+    }
+
+    /**
+     * Get all the declared method properties for this element.
+     *
+     * @return all the declared method properties
+     */
+    public List<XProperty> getDeclaredMethodProperties() {
+        LinkedList<XProperty> methodProperties = new LinkedList<>();
+        for(Method method : annotatedClass.getDeclaredMethods()) {
+            if(ReflectionUtil.isProperty(method)) {
+                methodProperties.add(getReflectionManager().getXProperty(method, getTypeBinder()));
+            }
+        }
+        return methodProperties;
+    }
+
+    /**
+     * Get the type binder for this XClass.
+     *
+     * @return the type binder for this XClass
+     */
+    public TypeBinder getTypeBinder() {
+        return typeBinder;
+    }
+
+    /**
+     * Get the this XClass's super class.
+     *
+     * @return the this XClass's super class
+     */
+    public XClass getSuperclass() {
+        return getReflectionManager().getXClass(annotatedClass.getSuperclass(),
+                CompoundTypeBinder.create(
+                        getTypeBinder(),
+                        getReflectionManager().getTypeBinder(annotatedClass)
+                )
+        );
+    }
+
+    /**
+     * Get the interfaces for XClass.
+     *
+     * @return the interfaces for XClass
+     */
+    public XClass[] getInterfaces() {
+        Class[] classes = toClass().getInterfaces();
+        int interfaceCount = classes.length;
+        XClass[] xClasses = new XClass[interfaceCount];
+        if(interfaceCount != 0) {
+            TypeBinder typeBinder = CompoundTypeBinder.create(
+                    getTypeBinder(),
+                    getReflectionManager().getTypeBinder(annotatedClass)
+            );
+            for(int index = 0;index < interfaceCount;index++) {
+                xClasses[index] = getReflectionManager().getXClass(classes[index], typeBinder);
+            }
+        }
+        return xClasses;
     }
 
     /**

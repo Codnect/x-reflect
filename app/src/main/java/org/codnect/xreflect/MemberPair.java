@@ -12,7 +12,7 @@ import java.lang.reflect.Member;
  */
 public class MemberPair extends Pair<Member, TypeBinder> {
 
-    public MemberPair(Member key, TypeBinder value) {
+    protected MemberPair(Member key, TypeBinder value) {
         super(key, value);
     }
 

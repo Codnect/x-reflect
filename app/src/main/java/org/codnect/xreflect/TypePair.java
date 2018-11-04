@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
  */
 public class TypePair extends Pair<Type, TypeBinder> {
 
-    public TypePair(Type key, TypeBinder value) {
+    protected TypePair(Type key, TypeBinder value) {
         super(key, value);
     }
 
