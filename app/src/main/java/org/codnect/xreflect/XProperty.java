@@ -1,5 +1,6 @@
 package org.codnect.xreflect;
 
+import org.codnect.xreflect.binder.TypeBinder;
 import org.codnect.xreflect.util.ReflectionUtil;
 
 import java.lang.reflect.Field;
@@ -16,22 +17,33 @@ public class XProperty extends XMember {
 
     private XProperty(Member member,
                       Type type,
+                      XType xType,
+                      TypeBinder typeBinder,
                       ReflectionManager reflectionManager) {
-        super(member, type, reflectionManager);
+        super(member, type, xType, typeBinder, reflectionManager);
     }
+
 
     /**
      * Create a new instance of the XProperty for specified member.
      *
      * @param member an instance of the Method or Field
+     * @param typeBinder an instance of type binder
      * @param reflectionManager reflection manager
      * @return a new instance of the XProperty for specified member.
      */
-    public static XProperty create(Member member, ReflectionManager reflectionManager) {
+    public static XProperty create(Member member, TypeBinder typeBinder, ReflectionManager reflectionManager) {
         if(!(member instanceof Field) && !(member instanceof Method)) {
             throw new IllegalArgumentException("The member should be a Field or Method instance for XProperty");
         }
-        return new XProperty(member, null, reflectionManager);
+        Type type;
+        if(member instanceof Field) {
+            type = typeBinder.bind(((Field)member).getGenericType());
+        } else {
+            type = typeBinder.bind(((Method)member).getGenericReturnType());
+        }
+        XType xType = reflectionManager.getXType(typeBinder, type);
+        return new XProperty(member, type, xType, typeBinder, reflectionManager);
     }
 
     /**

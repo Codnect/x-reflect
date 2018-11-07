@@ -1,5 +1,7 @@
 package org.codnect.xreflect;
 
+import org.codnect.xreflect.binder.TypeBinder;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Type;
@@ -13,23 +15,27 @@ public class XField extends XMember {
 
     private XField(Member member,
                    Type type,
+                   XType xType,
+                   TypeBinder typeBinder,
                    ReflectionManager reflectionManager) {
-        super(member, type, reflectionManager);
+        super(member, type, xType, typeBinder, reflectionManager);
     }
 
     /**
      * Create a new instance of the XField for specified member.
      *
      * @param member an instance of Field
+     * @param typeBinder an instance of type binder
      * @param reflectionManager reflection manager
      * @return a new instance of the XField for specified member.
      */
-    public static XField create(Member member, ReflectionManager reflectionManager) {
+    public static XField create(Member member, TypeBinder typeBinder, ReflectionManager reflectionManager) {
         if(!(member instanceof Field)) {
             throw new IllegalArgumentException("The member should be a Field instance for XField");
         }
-        /* TODO */
-        return new XField(member, null, reflectionManager);
+        Type type = typeBinder.bind(((Field)member).getGenericType());
+        XType xType = reflectionManager.getXType(typeBinder, type);
+        return new XField(member, type, xType, typeBinder, reflectionManager);
     }
 
     /**

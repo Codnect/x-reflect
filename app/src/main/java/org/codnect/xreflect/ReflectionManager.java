@@ -3,6 +3,7 @@ package org.codnect.xreflect;
 import org.codnect.xreflect.binder.SimpleTypeBinder;
 import org.codnect.xreflect.binder.TypeBinder;
 import org.codnect.xreflect.binder.TypeBinderFactory;
+import org.codnect.xreflect.util.ReflectionUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -148,6 +149,67 @@ public class ReflectionManager {
         xProperty = XProperty.create(member, typeBinder, this);
         reflectionCollector.addXProperty(memberPairKey, xProperty);
         return xProperty;
+    }
+
+    /**
+     * Get the instance of the XType for specified type.
+     *
+     * @param typeBinder an instance of the type binder
+     * @param type an instance of the type
+     * @return the instance of the XType for specified type.
+     */
+    public XType getXType(TypeBinder typeBinder, Type type) {
+        Type boundType = toApproximateBinder(typeBinder).bind(type);
+        if(ReflectionUtil.isSimple(boundType)) {
+            /* TODO */
+        } else if(ReflectionUtil.isArray(boundType)) {
+            /* TODO */
+        } else if(ReflectionUtil.isCollection(boundType)) {
+            /* TODO */
+        }
+
+        throw new IllegalArgumentException(type + " type cannot be convert to XType");
+    }
+
+    /**
+     * Converts the specified type binder to an approximate type
+     * binder.
+     *
+     * @param typeBinder an instance of the type binder
+     * @return an approximate type binder
+     */
+    public TypeBinder toApproximateBinder(TypeBinder typeBinder) {
+        return typeBinderFactory.toApproximateBinder(typeBinder);
+    }
+
+    /**
+     * Get the type binder for specified type.
+     *
+     * @param type an instance of the type
+     * @return a type binder for specified type
+     */
+    public TypeBinder getTypeBinder(Type type) {
+        if(type instanceof Class || type instanceof ParameterizedType) {
+            return typeBinderFactory.getBinder(type);
+        }
+        return null;
+    }
+
+    /**
+     * Convert the specified Class to XClass, then compare the
+     * converted class and specified XClass. if they are same,
+     * it returns true. Otherwise, it returns false.
+     *
+     * @param xClass a XClass
+     * @param otherClass a Class
+     * @return if they are same, it returns true. Otherwise,
+     * it returns false.
+     */
+    public boolean equals(XClass xClass, Class otherClass) {
+        if (xClass == null) {
+            return otherClass == null;
+        }
+        return xClass.toClass().equals(otherClass);
     }
 
 }
