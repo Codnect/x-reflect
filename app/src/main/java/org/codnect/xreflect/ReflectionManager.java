@@ -161,11 +161,11 @@ public class ReflectionManager {
     public XType getXType(TypeBinder typeBinder, Type type) {
         Type boundType = toApproximateBinder(typeBinder).bind(type);
         if(ReflectionUtil.isSimple(boundType)) {
-            /* TODO */
+            return new XSimpleType(type, typeBinder, this);
         } else if(ReflectionUtil.isArray(boundType)) {
-            /* TODO */
+            return new XArrayType(type, typeBinder, this);
         } else if(ReflectionUtil.isCollection(boundType)) {
-            /* TODO */
+            return new XCollectionType(type, typeBinder, this);
         }
 
         throw new IllegalArgumentException(type + " type cannot be convert to XType");
