@@ -2,7 +2,7 @@ package org.codnect.xreflect;
 
 import java.util.List;
 
-public class Foo<E> {
+public class Foo {
 
     static int staticField;
     String field;

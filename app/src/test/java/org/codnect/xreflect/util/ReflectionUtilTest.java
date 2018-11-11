@@ -58,8 +58,6 @@ public class ReflectionUtilTest {
         assertFalse(ReflectionUtil.isSimple(field.getType()));
         field = fooClass.getDeclaredField("collectionField");
         assertFalse(ReflectionUtil.isSimple(field.getType()));
-        field = fooClass.getDeclaredField("typeVariableField");
-        assertFalse(ReflectionUtil.isSimple(field.getType()));
     }
 
     @Test
