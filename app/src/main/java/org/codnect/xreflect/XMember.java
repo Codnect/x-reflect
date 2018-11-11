@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
  *
  * @author Burak Koken
  */
-public abstract class XMember extends XAnnotatedElement{
+public abstract class XMember extends XAnnotatedElement {
 
     private Type type;
     private XType xType;
