@@ -1,5 +1,6 @@
 package org.codnect.xreflect.binder;
 
+import org.codnect.xreflect.exception.NotResolvedException;
 import org.codnect.xreflect.util.ReflectionUtil;
 
 import java.lang.reflect.Array;
@@ -67,7 +68,7 @@ public class ApproximateTypeBinder implements TypeBinder {
         }
 
         if(!ReflectionUtil.isResolved(result)) {
-            throw new RuntimeException("Type is not resolved : " + type.toString());
+            throw new NotResolvedException("Type is not resolved : " + type.toString());
         }
 
         return result;

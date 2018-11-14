@@ -1,5 +1,7 @@
 package org.codnect.xreflect.binder;
 
+import org.codnect.xreflect.exception.UnreachableLineException;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -93,7 +95,7 @@ public class TypeBinderFactory {
             return new ParameterizedTypeBinder(formalArguments, actualArguments);
         }
 
-        throw new RuntimeException("Unreachable line!");
+        throw new UnreachableLineException("Unreachable line!");
     }
 
     /**

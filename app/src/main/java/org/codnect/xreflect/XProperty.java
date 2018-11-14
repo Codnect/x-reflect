@@ -62,7 +62,7 @@ public class XProperty extends XMember {
             else if(propertyName.startsWith("is")) {
                 return ReflectionUtil.decapitalize(propertyName);
             }
-            throw new RuntimeException("Method (" + propertyName + ") is not a property getter.");
+            throw new IllegalArgumentException("Method (" + propertyName + ") is not a property getter.");
         }
 
         return propertyName;

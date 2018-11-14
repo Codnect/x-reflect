@@ -61,7 +61,7 @@ public class ReflectionManager {
             getXClass(((ParameterizedType)boundType).getRawType(),
                     typeBinderFactory.getBinder(boundType, typeBinder));
         }
-        throw new RuntimeException("This type cannot be converted to a XClass : " + type.toString());
+        throw new IllegalArgumentException("This type cannot be converted to a XClass : " + type.toString());
     }
 
     /**
