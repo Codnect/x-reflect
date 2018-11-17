@@ -120,6 +120,23 @@ public class XClass extends XAnnotatedElement {
     }
 
     /**
+     * Get the declared field for specified field name.
+     *
+     * @param fieldName field name
+     * @return the declared field for specified field name.
+     *         if it does not exist, returns null.
+     */
+    public XField getDeclaredField(String fieldName) {
+        Field field;
+        try {
+            field = annotatedClass.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
+        return getReflectionManager().getXField(field, getTypeBinder());
+    }
+
+    /**
      * Get all the declared methods for this element.
      *
      * @return all the declared methods
@@ -130,6 +147,25 @@ public class XClass extends XAnnotatedElement {
             methods.add(getReflectionManager().getXMethod(method, getTypeBinder()));
         }
         return methods;
+    }
+
+    /**
+     * Get the declared method for specified method name and
+     * parameter types.
+     *
+     * @param methodName method name
+     * @param parameterTypes method's parameter types
+     * @return the declared method for specified method name and
+     *         parameter types. if it does not exist, returns null.
+     */
+    public XMethod getDeclaredMethod(String methodName, Class... parameterTypes) {
+        Method method;
+        try {
+            method = annotatedClass.getDeclaredMethod(methodName, parameterTypes);
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+        return getReflectionManager().getXMethod(method, getTypeBinder());
     }
 
     /**
@@ -148,6 +184,26 @@ public class XClass extends XAnnotatedElement {
     }
 
     /**
+     * Get the declared field property for specified field name.
+     *
+     * @param fieldName field name
+     * @return the declared field property for specified field name.
+     *         if it does not exist, returns null.
+     */
+    public XField getDeclaredFieldProperty(String fieldName) {
+        Field field;
+        try {
+            field = annotatedClass.getDeclaredField(fieldName);
+            if(!ReflectionUtil.isProperty(field)) {
+                return null;
+            }
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
+        return getReflectionManager().getXField(field, getTypeBinder());
+    }
+
+    /**
      * Get all the declared method properties for this element.
      *
      * @return all the declared method properties
@@ -160,6 +216,28 @@ public class XClass extends XAnnotatedElement {
             }
         }
         return methodProperties;
+    }
+
+    /**
+     * Get the declared method property for specified method name
+     * and parameter types.
+     *
+     * @param methodName method name
+     * @param parameterTypes method's parameter types
+     * @return the declared method property for specified method name
+     *         and parameter types. if it does not exist, returns null.
+     */
+    public XMethod getDeclaredMethodProperty(String methodName, Class... parameterTypes) {
+        Method method;
+        try {
+            method = annotatedClass.getDeclaredMethod(methodName, parameterTypes);
+            if(!ReflectionUtil.isProperty(method)) {
+                return null;
+            }
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+        return getReflectionManager().getXMethod(method, getTypeBinder());
     }
 
     /**

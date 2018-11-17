@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class XClassTest {
@@ -25,9 +27,25 @@ public class XClassTest {
     }
 
     @Test
+    public void testGetDeclaredFieldAndMethod() {
+        assertNotNull(fooXClass.getDeclaredField("field"));
+        assertNull(fooXClass.getDeclaredField("unknownField"));
+        assertNotNull(fooXClass.getDeclaredMethod("getField"));
+        assertNull(fooXClass.getDeclaredMethod("unknownGetField"));
+    }
+
+    @Test
     public void testGetDeclaredFieldAndMethodProperties() {
         assertEquals(fooXClass.getDeclaredFieldProperties().size(), 3);
         assertEquals(fooXClass.getDeclaredMethodProperties().size(), 3);
+    }
+
+    @Test
+    public void testGetDeclaredFieldAndMethodProperty() {
+        assertNotNull(fooXClass.getDeclaredFieldProperty("field"));
+        assertNull(fooXClass.getDeclaredFieldProperty("transientField"));
+        assertNotNull(fooXClass.getDeclaredMethodProperty("getField"));
+        assertNull(fooXClass.getDeclaredMethodProperty("getStaticField"));
     }
 
     @Test
