@@ -52,8 +52,7 @@ public class XArrayType extends XType {
             componentType = ((Class) approximatedType).getComponentType();
         } else if(approximatedType instanceof GenericArrayType) {
             componentType = ((GenericArrayType) approximatedType).getGenericComponentType();
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(approximatedType + " is not an array type" );
         }
         Type boundType = null;

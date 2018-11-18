@@ -58,7 +58,7 @@ public class ReflectionManager {
             return xClass;
         }
         else if(boundType instanceof ParameterizedType) {
-            getXClass(((ParameterizedType)boundType).getRawType(),
+            return getXClass(((ParameterizedType)boundType).getRawType(),
                     typeBinderFactory.getBinder(boundType, typeBinder));
         }
         throw new IllegalArgumentException("This type cannot be converted to a XClass : " + type.toString());
