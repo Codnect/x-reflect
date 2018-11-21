@@ -100,9 +100,8 @@ public class XCollectionType extends XType {
             Type[] actualTypeArguments = ((ParameterizedType) approximatedType).getActualTypeArguments();
             Class collectionClass = getCollectionClass();
             if(Map.class.isAssignableFrom(collectionClass) || SortedMap.class.isAssignableFrom(collectionClass)) {
-                toXClass(actualTypeArguments[0]);
+                return toXClass(actualTypeArguments[0]);
             }
-
         }
         return null;
     }
