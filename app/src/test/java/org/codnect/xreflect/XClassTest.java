@@ -22,8 +22,8 @@ public class XClassTest {
 
     @Test
     public void testGetDeclaredFieldsAndMethods() {
-        assertEquals(fooXClass.getDeclaredFields().size(), 5);
-        assertEquals(fooXClass.getDeclaredMethods().size(), 5);
+        assertEquals(fooXClass.getDeclaredFields().size(), 6);
+        assertEquals(fooXClass.getDeclaredMethods().size(), 6);
     }
 
     @Test
@@ -36,8 +36,8 @@ public class XClassTest {
 
     @Test
     public void testGetDeclaredFieldAndMethodProperties() {
-        assertEquals(fooXClass.getDeclaredFieldProperties().size(), 3);
-        assertEquals(fooXClass.getDeclaredMethodProperties().size(), 3);
+        assertEquals(fooXClass.getDeclaredFieldProperties().size(), 4);
+        assertEquals(fooXClass.getDeclaredMethodProperties().size(), 4);
     }
 
     @Test

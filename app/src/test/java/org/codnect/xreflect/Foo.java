@@ -1,6 +1,7 @@
 package org.codnect.xreflect;
 
 import java.util.List;
+import java.util.Map;
 
 public class Foo {
 
@@ -9,6 +10,7 @@ public class Foo {
     List<String> collectionField;
     String[] arrayField;
     transient int transientField;
+    Map<String, Integer> mapField;
 
     public static int getStaticField() {
         return 0;
@@ -28,6 +30,10 @@ public class Foo {
 
     public void voidMethod() {
 
+    }
+
+    public Map<String, Integer> getMapField() {
+        return null;
     }
 
 }
